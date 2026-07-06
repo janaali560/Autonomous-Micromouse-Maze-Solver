@@ -67,7 +67,6 @@ For visualization, the firmware architecture is organized as follows:
 
 ## 📉 System Control Loop Flowchart
 The control architecture manages spatial stabilization and differential velocity adjustments through the following runtime execution matrix:
-
 ```mermaid
 flowchart TD
     %% Define System Input
