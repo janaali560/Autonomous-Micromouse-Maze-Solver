@@ -78,6 +78,3 @@ float Calculate_Velocity_PID_Motor1(float setpoint, float actual) {
 	Motor1_prev_error = current_error;
 	drive = p_out + i_out + d_out;
 	return drive;
-}
-float Kp_Dist = 2.0f;
-float Kp_Steer = 0.5f;
