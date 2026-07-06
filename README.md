@@ -62,6 +62,9 @@ For visualization, the firmware architecture is organized as follows:
 │       └── drive_actuators.c      # Differential speed PWM mapping to encoder ticks
 └── Documentation/       # Structural schematics and hardware block diagrams
 
+
+
+
 ## 📉 System Control Loop Flowchart
 The control architecture manages spatial stabilization and differential velocity adjustments through the following runtime execution matrix:
 
