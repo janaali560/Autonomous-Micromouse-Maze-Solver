@@ -69,29 +69,17 @@ For visualization, the firmware architecture is organized as follows:
 The control architecture manages spatial stabilization and differential velocity adjustments through the following runtime execution matrix:
 ```mermaid
 flowchart TD
-    %% Define System Input
     Start([Wall Distance Target]) --> PID_Calc[Outer Control Loop: Spatial Processing]
-    
-    %% Sensor Data Inputs
-    Sensors[(IR & Ultrasonic Array)] -- Raw Telemetry Stream --> Fusion[Sensor Fusion & Calibration]
-    Fusion -- Clean Linear Feedback --> DriftCalc[Calculate Cross-Track Error / Axial Drift]
+    Sensors[(IR & Ultrasonic Array)] -- Raw Stream --> Fusion[Sensor Fusion]
+    Fusion -- Linear Feedback --> DriftCalc[Calculate Cross-Track Error]
     DriftCalc --> PID_Calc
-    
-    %% PID Mathematics Block
-    PID_Calc --> Math{Execute PID Loop Math}
-    Math -- Proportional Error --> Adjust[Compute Combined Alignment Adjustment]
-    Math -- Integral Window --> Adjust
-    Math -- Derivative Delta --> Adjust
-    
-    %% Emergency Guard Rail
+    PID_Calc --> Math{Execute PID Loop}
+    Math --> Adjust[Compute Adjustment]
     Adjust --> SafetyCheck{Collision Prevention Triggered?}
-    SafetyCheck -- Over-threshold Proximity --> Emergency[Override: Immediate Stop/Pivot]
+    SafetyCheck -- Over-threshold Proximity --> Emergency[Override: Immediate Stop]
     SafetyCheck -- Safe Path Maintained --> Actuator[Inner Control Loop: Velocity Mapping]
-    
-    %% Actuation Out
-    Actuator --> Encoder[Read Quadrature Encoders Tick Delta]
-    Encoder --> MotorPWM[Update Left/Right Motor PWM Signals]
-    MotorPWM --> Moving[Execute Physical Trajectory Correction]
-    
-    %% Feedback Loop
+    Actuator --> Encoder[Read Quadrature Encoders]
+    Encoder --> MotorPWM[Update Motor PWM Signals]
+    MotorPWM --> Moving[Physical Trajectory Correction]
     Moving --> Sensors
+```
